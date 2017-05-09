@@ -1,0 +1,5 @@
+<workflow-app xmlns="uri:oozie:workflow:0.2" name="hdfs-example">
+
+    <action name="create-hdfs-dir">
+    </action>
+</workflow-app>
