@@ -12,9 +12,15 @@ import java.util.Properties;
 public class OozieExample1 {
 
     private String oozieUrl;
+    private String oozieAppPath;
+    private String nameNode;
+    private String jobTracker;
 
-    public OozieExample1(String oozieUrl) {
+    public OozieExample1(String oozieUrl, String oozieAppPath, String nameNode, String jobTracker) {
         this.oozieUrl = oozieUrl;
+        this.oozieAppPath = oozieAppPath;
+        this.nameNode = nameNode;
+        this.jobTracker = jobTracker;
     }
 
     /**
@@ -37,11 +43,8 @@ public class OozieExample1 {
      * Run your workflow.
      */
     public void runWorkflow() {
-        String oozieAppPath = "hdfs://dzuhdpmaster01.dzinsou.local:8020/tmp/workflows/no-op";
-        String jobTracker = "dzuhdpmaster01.dzinsou.local:8021";
-        String nameNode = "hdfs://dzuhdpmaster01.dzinsou.local:8020";
         String queueName = "default";
-        String oozieLibpath = "hdfs://dzuhdpmaster01.dzinsou.local:8020/user/oozie/share/lib";
+        String oozieLibpath = nameNode + "/user/oozie/share/lib";
 
         // get a OozieClient for local Oozie
         OozieClient wc = new OozieClient(oozieUrl);
@@ -76,7 +79,11 @@ public class OozieExample1 {
 
     public static void main(String[] args) {
         String oozieUrl = args[0];
-        OozieExample1 example1 = new OozieExample1(oozieUrl);
+        String oozieAppPath = args[1];
+        String nameNode = args[2];
+        String jobTracker = args[3];
+
+        OozieExample1 example1 = new OozieExample1(oozieUrl, oozieAppPath, nameNode, jobTracker);
         example1.generateWorkflow();
         example1.copyWorkflowToHDFS();
         example1.runWorkflow();
